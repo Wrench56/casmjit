@@ -57,13 +57,16 @@ void encode_modrm(instr_t* instruction) {
 
         if (rm_op->base == REG_INVD) {
             /* Absolute and relative addressing */
+            instruction->dispsize = DISP0;
             mod = 0b00;
         } else if (disp == 0 && REG_LOW3(rm_op->base) != 5) {
             /* For RBP and R13 I need disp8 = 0 */
             mod = 0b00;
         } else if (disp < INT8_MAX && disp > INT8_MIN) {
+            instruction->dispsize = DISP8;
             mod = 0b01;
         } else if (disp < INT32_MAX && disp > INT32_MIN) {
+            instruction->dispsize = DISP32;
             mod = 0b10;
         } else {
             assert(0 && "Impossible MODRM.mod value!");

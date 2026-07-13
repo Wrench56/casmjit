@@ -24,6 +24,12 @@ typedef enum {
     MAP_0F3A,
 } opmap_t;
 
+typedef enum {
+    DISP0,
+    DISP8,
+    DISP32,
+} dispsize_t;
+
 #define INSTR_O(op, form, s0, s1, s2, s3, map, opcode, dig) op,
 typedef enum {
 #include "x86/tbl/instructions.h"
@@ -63,6 +69,7 @@ typedef struct {
 
 typedef struct {
     instrkind_t kind;
+    dispsize_t dispsize;
     uint8_t binary_index;
     uint8_t binary[INSTR_MAX_LENGTH];
     const instrform_t* form;
