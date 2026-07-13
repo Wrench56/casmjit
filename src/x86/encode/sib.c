@@ -29,9 +29,12 @@ void encode_sib(instr_t* instruction) {
         default:
             return;
     }
-    assert(rm_op->kind == OPK_MEM);
 
     /* Check if SIB byte is needed in the first place */
+    if (rm_op->kind != OPK_MEM) {
+        return;
+    }
+
     if (!((rm_op->index != REG_INVD) ||
           (rm_op->base != REG_INVD && REG_LOW3(rm_op->base) == 0b100) ||
           (rm_op->base == REG_INVD))) {
