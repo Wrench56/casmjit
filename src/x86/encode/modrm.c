@@ -52,6 +52,7 @@ void encode_modrm(instr_t* instruction) {
 
     if (rm_op->kind == OPK_REG) {
         mod = 0b11;
+        rm = REG_LOW3(rm_op->reg);
     } else if (rm_op->kind == OPK_MEM) {
         const int32_t disp = instruction->operands[opn].disp;
 
@@ -71,6 +72,15 @@ void encode_modrm(instr_t* instruction) {
         } else {
             assert(0 && "Impossible MODRM.mod value!");
         }
+
+        /* If SIB is used, set MODRM.rm to 0x04 */
+        if (rm_op->index != REG_INVD ||
+            (rm_op->base != REG_INVD && REG_LOW3(rm_op->base) == 0b100) ||
+            (rm_op->base == REG_INVD)) {
+            rm = 0b100;
+        } else {
+            rm = REG_LOW3(rm_op->base);
+        }
     }
 
     /*
@@ -85,13 +95,6 @@ void encode_modrm(instr_t* instruction) {
         assert(
             reg < 8 && "Invalid MODRM.reg set, digit exceeds maximum allowed 7."
         );
-    }
-
-    /* If SIB is used, set MODRM.rm to 0x04 */
-    if (mod == 0b11) {
-        rm = REG_LOW3(rm_op->base);
-    } else {
-        rm = 0b100;
     }
 
     modrm |= (mod & 0x03) << 6;
