@@ -32,7 +32,7 @@ typedef struct {
     int8_t s2;
     int8_t s3;
     uint8_t opcode;
-    uint8_t digit;
+    int8_t digit;
 } instrform_t;
 
 typedef struct {
