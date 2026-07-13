@@ -46,6 +46,8 @@ const instrform_t* find_instr_form(
             form = MR;
         } else if (operands[1].kind == OPK_MEM) {
             form = RM;
+        } else if (operands[1].kind == OPK_IMM) {
+            form = MI;
         }
     } else if (operands[0].kind == OPK_IMM && operands[1].kind == OPK_NULL) {
         form = I;
