@@ -76,4 +76,10 @@ typedef struct {
     operand_t operands[INSTR_MAX_OPERANDS];
 } instr_t;
 
+void to_instr(
+    instrkind_t instrkind,
+    const operand_t operands[INSTR_MAX_OPERANDS],
+    instr_t* instr
+);
+
 #endif // CASMJIT_X86_INSTR_H
