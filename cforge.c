@@ -122,6 +122,8 @@ CF_TARGET(archive, CF_DEPENDS(compile), CF_HIDDEN) {
 CF_TARGET(compile, CF_HIDDEN) {
     CF_MKDIR(LIB_BDIR);
     was_rebuilt |= compile_pattern("library", "src/*.c", LIB_BDIR "/");
+    was_rebuilt |= compile_pattern("library", "src/**/*.c", LIB_BDIR "/");
+    was_rebuilt |= compile_pattern("library", "src/**/**/*.c", LIB_BDIR "/");
 }
 
 CF_TARGET(test_ln, CF_DEPENDS(release), CF_DEPENDS(test_cc)) {
