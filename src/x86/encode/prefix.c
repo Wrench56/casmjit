@@ -47,7 +47,7 @@ static uint8_t rex_prefix(instr_t* instruction) {
     */
 
     /* REX.W */
-    if (instruction->form->s0 == 3) {
+    if (instruction->form->s0 == 64) {
         rex |= 0b00001000;
     }
 
