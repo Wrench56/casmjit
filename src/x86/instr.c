@@ -1,3 +1,5 @@
+#include <assert.h>
+
 #include "x86/encode/disp.h"
 #include "x86/encode/form.h"
 #include "x86/encode/imm.h"
@@ -17,6 +19,8 @@ void to_instr(
     instr->binary_index = 0;
     __builtin_memset(instr->binary, 0, sizeof(instr->binary));
     __builtin_memcpy(instr->operands, operands, sizeof(instr->operands));
+
+    assert(instr->form != NULL && "No matching instruction form found!");
 
     encode_prefix(instr);
     encode_opcode(instr);
