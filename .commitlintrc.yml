@@ -21,7 +21,7 @@ rules:
     options:
       - commitlint
       - license
-      - isa
+      - isa/x86
   subject-empty:
     level: error
   type:
