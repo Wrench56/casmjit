@@ -2,17 +2,18 @@
 
 #include "x86/instr.h"
 
-#define INSTR_O(op, form_, s0_, s1_, s2_, s3_, opcode_, dig)                   \
+#define INSTR_O(op, form_, s0_, s1_, s2_, s3_, map_, opcode_, dig)             \
     { .kind = op,                                                              \
       .form = form_,                                                           \
       .s0 = s0_,                                                               \
       .s1 = s1_,                                                               \
       .s2 = s2_,                                                               \
       .s3 = s3_,                                                               \
+      .map = map_,                                                             \
       .opcode = opcode_,                                                       \
       .digit = dig },
-#define INSTR_F(op, form, s0, s1, s2, s3, opcode, dig)                         \
-    INSTR_O(op, form, s0, s1, s2, s3, opcode, dig)
+#define INSTR_F(op, form, s0, s1, s2, s3, map, opcode, dig)                    \
+    INSTR_O(op, form, s0, s1, s2, s3, map, opcode, dig)
 
 const instrform_t forms[] = {
 #include "x86/tbl/instructions.h"

@@ -17,7 +17,14 @@ typedef enum {
     OPK_MEM,
 } opkind_t;
 
-#define INSTR_O(op, form, s0, s1, s2, s3, opcode, dig) op,
+typedef enum {
+    MAP_LEGACY = 0,
+    MAP_0F,
+    MAP_0F38,
+    MAP_0F3A,
+} opmap_t;
+
+#define INSTR_O(op, form, s0, s1, s2, s3, map, opcode, dig) op,
 typedef enum {
 #include "x86/tbl/instructions.h"
 } instrkind_t;
@@ -31,6 +38,7 @@ typedef struct {
     int8_t s1;
     int8_t s2;
     int8_t s3;
+    opmap_t map;
     uint8_t opcode;
     int8_t digit;
 } instrform_t;
