@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stddef.h>
 
 #include "x86/instr.h"
@@ -22,6 +23,31 @@ const instrform_t forms[] = {
 #undef INSTR_F
 
 const size_t forms_count = (sizeof(forms) / sizeof(forms[0]));
+
+static inline bool check_bounds(const int8_t bounds, const operand_t* op) {
+    if (bounds == -1) {
+        return true;
+    }
+
+    switch (op->kind) {
+        case OPK_REG:
+            return (REG_SIZE(op->reg) == __builtin_ctz(bounds) - 3);
+        case OPK_MEM:
+            return true;
+        case OPK_IMM:;
+            if (bounds >= 64) {
+                return true;
+            }
+
+            int64_t max = (1 << (bounds - 1)) - 1;
+            int64_t min = -(1 << (bounds - 1));
+            return (op->immediate <= max && op->immediate >= min);
+        default:
+            return false;
+    }
+
+    return false;
+}
 
 const instrform_t* find_instr_form(
     instrkind_t instruction,
@@ -64,23 +90,19 @@ const instrform_t* find_instr_form(
             continue;
         }
 
-        if (forms[i].s0 > -1 &&
-            REG_SIZE(operands[0].reg) != __builtin_ctz(forms[i].s0) - 3) {
+        if (!check_bounds(forms[i].s0, &operands[0])) {
             continue;
         }
 
-        if (forms[i].s1 > -1 &&
-            REG_SIZE(operands[1].reg) != __builtin_ctz(forms[i].s1) - 3) {
+        if (!check_bounds(forms[i].s1, &operands[1])) {
             continue;
         }
 
-        if (forms[i].s2 > -1 &&
-            REG_SIZE(operands[2].reg) != __builtin_ctz(forms[i].s2) - 3) {
+        if (!check_bounds(forms[i].s2, &operands[2])) {
             continue;
         }
 
-        if (forms[i].s3 > -1 &&
-            REG_SIZE(operands[3].reg) != __builtin_ctz(forms[i].s3) - 3) {
+        if (!check_bounds(forms[i].s3, &operands[3])) {
             continue;
         }
 
