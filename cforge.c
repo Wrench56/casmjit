@@ -18,11 +18,11 @@
 #define TEST_BDIR "build/tests"
 #define TEST_PATH "build/unittest"
 
-#define CC_TAG "[" CF_YELLOW "CC" CF_RESET "] "
-#define AR_TAG "[" CF_CYAN "AR" CF_RESET "] "
-#define LD_TAG "[" CF_CYAN "LD" CF_RESET "] "
-#define TT_TAG "[" CF_GREEN "TT" CF_RESET "] "
-#define IN_TAG "[" CF_RED "IN" CF_RESET "] "
+#define CC_TAG "[  " CF_YELLOW "CC" CF_RESET "  ] "
+#define AR_TAG "[  " CF_CYAN "AR" CF_RESET "  ] "
+#define LD_TAG "[  " CF_CYAN "LD" CF_RESET "  ] "
+#define TT_TAG "[  " CF_GREEN "TT" CF_RESET "  ] "
+#define IN_TAG "[  " CF_RED "IN" CF_RESET "  ] "
 
 bool was_rebuilt = false;
 bool test_was_rebuilt = false;
