@@ -56,7 +56,7 @@ typedef struct {
             genreg_t reg;
         };
         struct {
-            uint64_t immediate;
+            int64_t immediate;
         };
         struct {
             genreg_t base;
