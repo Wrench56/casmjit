@@ -115,3 +115,15 @@ KRITIC_TEST(instructions, pause) {
     to_instr(PAUSE, NULL, &instr);
     KRITIC_ASSERT_EQ(0, memcmp(out, instr.binary, instr.binary_index));
 }
+
+KRITIC_TEST(instructions, nop) {
+    instr_t instr = { 0 };
+
+    const uint8_t out[] = {
+        0x90, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    };
+
+    to_instr(NOP, NULL, &instr);
+    KRITIC_ASSERT_EQ(0, memcmp(out, instr.binary, instr.binary_index));
+}
