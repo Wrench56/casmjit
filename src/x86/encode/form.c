@@ -56,7 +56,9 @@ const instrform_t* find_instr_form(
 ) {
     form_t form = UNKNOWN;
 
-    if (operands[0].kind == OPK_MEM) {
+    if (operands == NULL) {
+        form = ZO;
+    } else if (operands[0].kind == OPK_MEM) {
         if (operands[1].kind == OPK_REG) {
             form = MR;
         }

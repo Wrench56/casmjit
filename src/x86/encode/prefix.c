@@ -28,6 +28,8 @@ static uint8_t rex_prefix(instr_t* instruction) {
         case O:
             reg = &instruction->operands[0];
             break;
+        case ZO:
+            return 0x00;
         default:
             break;
     }
@@ -89,5 +91,8 @@ void encode_prefix(instr_t* instruction) {
     if (pp != PP_NONE) {
         instruction->binary[instruction->binary_index++] = pp;
     }
-    instruction->binary[instruction->binary_index++] = rex;
+    
+    if (rex != 0x00) {
+        instruction->binary[instruction->binary_index++] = rex;
+    }
 }

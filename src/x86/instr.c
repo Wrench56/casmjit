@@ -18,7 +18,9 @@ void to_instr(
     instr->form = find_instr_form(instrkind, operands);
     instr->binary_index = 0;
     __builtin_memset(instr->binary, 0, sizeof(instr->binary));
-    __builtin_memcpy(instr->operands, operands, sizeof(instr->operands));
+    if (operands != NULL) {
+        __builtin_memcpy(instr->operands, operands, sizeof(instr->operands));
+    }
 
     assert(instr->form != NULL && "No matching instruction form found!");
 

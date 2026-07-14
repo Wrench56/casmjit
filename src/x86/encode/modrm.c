@@ -44,7 +44,8 @@ void encode_modrm(instr_t* instruction) {
             break;
         case I:
         case O:
-            break;
+        case ZO:
+            return;
         default:
             assert(0 && "Invalid instruction form");
             break;
