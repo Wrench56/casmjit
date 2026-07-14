@@ -25,5 +25,5 @@ void encode_imm(instr_t* instruction) {
         &imm_op->immediate,
         bytes
     );
-    instruction->binary_index += 8;
+    instruction->binary_index += bytes;
 }
