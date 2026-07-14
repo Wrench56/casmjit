@@ -25,12 +25,18 @@ typedef enum {
 } opmap_t;
 
 typedef enum {
+    PP_NONE = 0x00,
+    PP_66 = 0x66,
+    PP_F3 = 0xF3,
+} oppp_t;
+
+typedef enum {
     DISP0,
     DISP8,
     DISP32,
 } dispsize_t;
 
-#define INSTR_O(op, form, s0, s1, s2, s3, map, opcode, dig) op,
+#define INSTR_O(op, form, s0, s1, s2, s3, map, pp, opcode, dig) op,
 typedef enum {
 #include "x86/tbl/instructions.h"
 } instrkind_t;
@@ -45,6 +51,7 @@ typedef struct {
     int8_t s2;
     int8_t s3;
     opmap_t map;
+    oppp_t pp;
     uint8_t opcode;
     int8_t digit;
 } instrform_t;

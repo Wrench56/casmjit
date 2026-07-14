@@ -85,5 +85,9 @@ static uint8_t rex_prefix(instr_t* instruction) {
 void encode_prefix(instr_t* instruction) {
     uint8_t rex = rex_prefix(instruction);
 
+    const uint8_t pp = instruction->form->pp;
+    if (pp != PP_NONE) {
+        instruction->binary[instruction->binary_index++] = pp;
+    }
     instruction->binary[instruction->binary_index++] = rex;
 }
