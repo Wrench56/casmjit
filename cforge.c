@@ -60,7 +60,7 @@ static bool compile_pattern(const char* section, const char* pattern, const char
 CF_CONFIG(release) {
     CF_SET_ENV(mode, "release");
 
-    CF_SET_ENV(cflags, "-O2");
+    CF_SET_ENV(cflags, "-O2 -DNDEBUG");
     CF_SET_ENV(includes, "-Iincludes/");
 }
 
