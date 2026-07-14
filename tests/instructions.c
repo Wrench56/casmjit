@@ -76,7 +76,7 @@ KRITIC_TEST(instructions, add) {
     KRITIC_ASSERT_EQ(0, memcmp(out_ri32, instr.binary, instr.binary_index));
 }
 
-KRITIC_TEST(encode, mov) {
+KRITIC_TEST(instructions, mov) {
     instr_t instr = { 0 };
 
     const uint8_t out_rr[] = {
@@ -102,4 +102,16 @@ KRITIC_TEST(encode, mov) {
 
     to_instr(MOV, ri32_ops, &instr);
     KRITIC_ASSERT_EQ(0, memcmp(out_ri32, instr.binary, instr.binary_index));
+}
+
+KRITIC_TEST(instructions, pause) {
+    instr_t instr = { 0 };
+
+    const uint8_t out[] = {
+        0xF3, 0x90, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    };
+
+    to_instr(PAUSE, NULL, &instr);
+    KRITIC_ASSERT_EQ(0, memcmp(out, instr.binary, instr.binary_index));
 }
