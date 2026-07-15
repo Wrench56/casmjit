@@ -104,3 +104,24 @@ KRITIC_TEST(encode, r64i32) {
     to_instr(ADD, operands, &instr);
     KRITIC_ASSERT_EQ(0, memcmp(out, instr.binary, instr.binary_index));
 }
+
+KRITIC_TEST(encode, i32) {
+    instr_t instr = { 0 };
+    operand_t operands[4] = {
+        {
+            .kind = OPK_IMM,
+            .immediate = 0xAF,
+        },
+        {
+            .kind = OPK_NULL,
+        },
+    };
+
+    const uint8_t out[] = {
+        0x40, 0x68, 0xAF, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    };
+
+    to_instr(PUSH, operands, &instr);
+    KRITIC_ASSERT_EQ(0, memcmp(out, instr.binary, instr.binary_index));
+}
