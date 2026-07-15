@@ -85,3 +85,10 @@ void jitcode_assemble(jitcode_t* jitcode) {
 
     inj_code(jitcode);
 }
+
+uint64_t jitcode_execute(jitcode_t* jitcode) {
+    typedef uint64_t (*jit_fn_t)(void);
+
+    jit_fn_t fn = (jit_fn_t)jitcode->codepages;
+    return fn();
+}

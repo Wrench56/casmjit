@@ -28,5 +28,6 @@ labelid_t jitcode_emit(
     const operand_t ops[INSTR_MAX_OPERANDS]
 );
 void jitcode_assemble(jitcode_t* jitcode);
+uint64_t jitcode_execute(jitcode_t* jitcode);
 
 #endif // CASMJIT_JIT_H
