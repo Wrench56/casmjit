@@ -11,13 +11,13 @@ void encode_imm(instr_t* instruction) {
             imm_op = &instruction->operands[1];
             break;
         case I:
-            imm_op = &instruction->operands[1];
+            imm_op = &instruction->operands[0];
             break;
         default:
             return;
     }
 
-    size_t bytes = form->s1 / 8;
+    size_t bytes = ((form->form == I) ? form->s0 : form->s1) / 8;
     assert(bytes < 9 && "Immediate length exceeds 8 bytes!");
 
     __builtin_memcpy(
