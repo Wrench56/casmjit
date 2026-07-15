@@ -288,6 +288,11 @@ __attribute__((unused)) void jitcode_fdump(
     FILE* out,
     const jitcode_t* jitcode
 ) {
+    (void) out;
+    (void) jitcode;
+}
+
+__attribute__((unused)) void jitcode_dump(const jitcode_t* jitcode) {
     (void) jitcode;
 }
 
