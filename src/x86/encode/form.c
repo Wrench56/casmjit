@@ -77,11 +77,11 @@ const instrform_t* find_instr_form(
             form = RM;
         } else if (operands[1].kind == OPK_IMM) {
             form = MI;
+        } else if (operands[1].kind == OPK_NULL) {
+            form = O;
         }
     } else if (operands[0].kind == OPK_IMM && operands[1].kind == OPK_NULL) {
         form = I;
-    } else if (operands[0].kind == OPK_NULL) {
-        form = O;
     }
 
     for (size_t i = 0; i < forms_count; i++) {

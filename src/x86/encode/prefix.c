@@ -92,6 +92,7 @@ void encode_prefix(instr_t* instruction) {
         instruction->binary[instruction->binary_index++] = pp;
     }
     
+    // FIXME: Skip REX byte for instructions that default to long mode (e.g. PUSH)
     if (rex != 0x00) {
         instruction->binary[instruction->binary_index++] = rex;
     }

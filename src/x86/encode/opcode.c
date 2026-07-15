@@ -25,5 +25,11 @@ void encode_opcode(instr_t* instruction) {
             emit_byte(instruction, 0x3A);
             break;
     }
+
+    uint8_t opcode = form->opcode;
+    if (form->form == O) {
+        opcode |= REG_LOW3(instruction->operands[0].base);
+    }
+
     emit_byte(instruction, form->opcode);
 }
