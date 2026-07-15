@@ -220,7 +220,7 @@ void instr_fdump(FILE* out, const instr_t* instr) {
         if (f->digit >= 0) {
             fprintf(out, "/%d\n", f->digit);
         } else {
-            fputs("/r\n", out);
+            fputs("\n", out);
         }
     } else {
         fputs("     enc: <no form>\n", out);
