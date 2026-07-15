@@ -57,18 +57,23 @@ static bool compile_pattern(const char* section, const char* pattern, const char
     return rebuilt;
 }
 
+CF_CONFIG(base) {
+    CF_SET_ENV(includes, "-Iincludes/");
+    CF_SET_ENV(cflags, "-DX86 ");
+}
+
 CF_CONFIG(release) {
+    CF_CONFIG_EXTENDS(base);
     CF_SET_ENV(mode, "release");
 
-    CF_SET_ENV(cflags, "-O2 -DNDEBUG -march=native");
-    CF_SET_ENV(includes, "-Iincludes/");
+    CF_APPEND_ENV(cflags, "-O2 -DNDEBUG -march=native");
 }
 
 CF_CONFIG(debug) {
+    CF_CONFIG_EXTENDS(base);
     CF_SET_ENV(mode, "debug");
 
-    CF_SET_ENV(cflags, "-g");
-    CF_SET_ENV(includes, "-Iincludes/");
+    CF_APPEND_ENV(cflags, "-g");
 }
 
 CF_CONFIG(test) {
