@@ -21,7 +21,7 @@ void cb_grow(codebuf_t* codebuf) {
     codebuf->cap = newcap;
 }
 
-void cb_add(codebuf_t* codebuf, const void* data, size_t size) {
+void cb_add(codebuf_t* codebuf, const instr_t* data, size_t size) {
     while (codebuf->size + size > codebuf->cap) {
         cb_grow(codebuf);
     }
