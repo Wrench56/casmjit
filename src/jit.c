@@ -1,12 +1,15 @@
 #include "jit.h"
+#include "xmem.h"
 
 #include "x86/encode/rel.h"
 
 void jitcode_init(jitcode_t* jitcode) {
+    jitcode->codesize = 0;
     cb_reserve(&jitcode->codebuf, CB_DEFAULT_CAP * sizeof(instr_t));
 }
 
 void jitcode_free(jitcode_t* jitcode) {
+    jitcode->codesize = 0;
     cb_free(&jitcode->codebuf);
 }
 
@@ -66,6 +69,7 @@ void jitcode_assemble(jitcode_t* jitcode) {
     size_t index = 0;
     instr_t* instruction = &jitcode->codebuf.data[index++];
     while (instruction->kind != PSEUDO_NULL) {
+        jitcode->codesize += instruction->binary_index;
         if (instruction->kind == JMP) {
             int32_t offset = resolve_offset(
                 jitcode->codebuf.data,
@@ -75,6 +79,9 @@ void jitcode_assemble(jitcode_t* jitcode) {
 
             encode_pass2_rel(instruction, offset);
         }
+
         instruction = &jitcode->codebuf.data[index++];
     }
+
+    inj_code(jitcode);
 }

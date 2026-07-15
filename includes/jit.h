@@ -16,6 +16,8 @@
 
 typedef struct {
     codebuf_t codebuf;
+    size_t codesize;
+    void* codepages;
 } jitcode_t;
 
 void jitcode_init(jitcode_t* jitcode);
