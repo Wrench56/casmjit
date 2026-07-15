@@ -23,6 +23,7 @@ rules:
       - license
       - isa/x86
       - utils
+      - codegen
   subject-empty:
     level: error
   type:
