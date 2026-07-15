@@ -58,6 +58,26 @@ const operand_t rm_ops[4] = {
     },
 };
 
+const operand_t i8_ops[4] = {
+    {
+        .kind = OPK_IMM,
+        .immediate = 0x10,
+    },
+    {
+        .kind = OPK_NULL,
+    }
+};
+
+const operand_t i32_ops[4] = {
+    {
+        .kind = OPK_IMM,
+        .immediate = 0xAF,
+    },
+    {
+        .kind = OPK_NULL,
+    }
+};
+
 KRITIC_TEST(instructions, add) {
     instr_t instr = { 0 };
 
@@ -141,11 +161,27 @@ KRITIC_TEST(instructions, nop) {
 KRITIC_TEST(instructions, push) {
     instr_t instr = { 0 };
 
-    const uint8_t out[] = {
+    const uint8_t out_r[] = {
         0x48, 0x50, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     };
 
+    const uint8_t out_i8[] = {
+        0x40, 0x6A, 0x10, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    };
+
+    const uint8_t out_i32[] = {
+        0x40, 0x68, 0xAF, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    };
+
     to_instr(PUSH, r_ops, &instr);
-    KRITIC_ASSERT_EQ(0, memcmp(out, instr.binary, instr.binary_index));
+    KRITIC_ASSERT_EQ(0, memcmp(out_r, instr.binary, instr.binary_index));
+
+    to_instr(PUSH, i8_ops, &instr);
+    KRITIC_ASSERT_EQ(0, memcmp(out_i8, instr.binary, instr.binary_index));
+
+    to_instr(PUSH, i32_ops, &instr);
+    KRITIC_ASSERT_EQ(0, memcmp(out_i32, instr.binary, instr.binary_index));
 }
