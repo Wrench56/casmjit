@@ -1,17 +1,21 @@
 #ifndef CASMJIT_X86_INSTR_H
 #define CASMJIT_X86_INSTR_H
 
+#include <stddef.h>
 #include <stdint.h>
 
-#include "regs.h"
+#include "label.h"
+#include "x86/regs.h"
 
 #define INSTR_MAX_OPERANDS 4
 #define INSTR_MAX_LENGTH 16
 
-typedef enum { UNKNOWN = 0, RM, MR, MI, M, I, O, ZO } form_t;
+typedef enum { UNKNOWN = 0, RM, MR, MI, M, I, O, ZO, D } form_t;
 
 typedef enum {
     OPK_NULL = 0,
+    OPK_LABEL = OPKIND_LABEL,
+    OPK_PSEUDO = 2,
     OPK_REG,
     OPK_IMM,
     OPK_MEM,
@@ -38,6 +42,8 @@ typedef enum {
 
 #define INSTR_O(op, form, s0, s1, s2, s3, map, pp, opcode, dig) op,
 typedef enum {
+    PSEUDO_NULL = 0,
+    PSEUDO_LABEL = 1,
 #include "x86/tbl/instructions.h"
 } instrkind_t;
 #undef INSTR_O
@@ -71,16 +77,31 @@ typedef struct {
             uint8_t scale;
             int32_t disp;
         };
+        struct {
+            labelid_t label;
+            size_t this_index;
+        };
+        struct {
+            void* pseudo_data;
+        };
     };
 } operand_t;
 
 typedef struct {
     instrkind_t kind;
-    dispsize_t dispsize;
-    uint8_t binary_index;
-    uint8_t binary[INSTR_MAX_LENGTH];
-    const instrform_t* form;
-    operand_t operands[INSTR_MAX_OPERANDS];
+    union {
+        struct {
+            dispsize_t dispsize;
+            uint8_t binary_index;
+            uint8_t binary[INSTR_MAX_LENGTH];
+            const instrform_t* form;
+            operand_t operands[INSTR_MAX_OPERANDS];
+        };
+        struct {
+            labelid_t label;
+            const char* name;
+        };
+    };
 } instr_t;
 
 void to_instr(

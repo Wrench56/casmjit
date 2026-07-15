@@ -6,6 +6,7 @@
 #include "x86/encode/modrm.h"
 #include "x86/encode/opcode.h"
 #include "x86/encode/prefix.h"
+#include "x86/encode/rel.h"
 #include "x86/encode/sib.h"
 
 void to_instr(
@@ -30,4 +31,5 @@ void to_instr(
     encode_sib(instr);
     encode_disp(instr);
     encode_imm(instr);
+    encode_rel(instr);
 }

@@ -43,6 +43,8 @@ static inline bool check_bounds(const int8_t bounds, const operand_t* op) {
             int64_t max = (1 << (bounds - 1)) - 1;
             int64_t min = -(1 << (bounds - 1));
             return (op->immediate <= max && op->immediate >= min);
+        case OPK_LABEL:
+            return (bounds == 32) ? true : false;
         default:
             return false;
     }
@@ -82,6 +84,8 @@ const instrform_t* find_instr_form(
         }
     } else if (operands[0].kind == OPK_IMM && operands[1].kind == OPK_NULL) {
         form = I;
+    } else if (operands[0].kind == OPK_LABEL && operands[1].kind == OPK_NULL) {
+        form = D;
     }
 
     for (size_t i = 0; i < forms_count; i++) {

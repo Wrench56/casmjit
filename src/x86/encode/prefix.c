@@ -29,6 +29,7 @@ static uint8_t rex_prefix(instr_t* instruction) {
             reg = &instruction->operands[0];
             break;
         case ZO:
+        case D:
             return 0x00;
         default:
             break;
