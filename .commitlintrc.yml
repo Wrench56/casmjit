@@ -24,6 +24,7 @@ rules:
       - isa/x86
       - utils
       - codegen
+      - xmem
   subject-empty:
     level: error
   type:
