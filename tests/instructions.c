@@ -13,40 +13,50 @@ static __attribute__((unused)) void debug(const instr_t* instr) {
     printf("Index = %u\n", instr->binary_index);
 }
 
+const operand_t r_ops[4] = {
+    {
+        .kind = OPK_REG,
+        .reg = REG_RAX,
+    },
+    {
+        .kind = OPK_NULL,
+    },
+};
+
 const operand_t rr_ops[4] = {
-        {
-            .kind = OPK_REG,
-            .reg = REG_RAX,
-        },
-        {
-            .kind = OPK_REG,
-            .reg = REG_RBX,
-        }
-    };
+    {
+        .kind = OPK_REG,
+        .reg = REG_RAX,
+    },
+    {
+        .kind = OPK_REG,
+        .reg = REG_RBX,
+    }
+};
 
 const operand_t ri32_ops[4] = {
-        {
-            .kind = OPK_REG,
-            .reg = REG_RAX,
-        },
-        {
-            .kind = OPK_IMM,
-            .immediate = 0xAF,
-        }
-    };
+    {
+        .kind = OPK_REG,
+        .reg = REG_RAX,
+    },
+    {
+        .kind = OPK_IMM,
+        .immediate = 0xAF,
+    }
+};
 
 const operand_t rm_ops[4] = {
-        {
-            .kind = OPK_REG,
-            .reg = REG_RAX,
-        },
-        {
-            .kind = OPK_MEM,
-            .base = REG_RBX,
-            .index = REG_INVD,
-            .scale = 1,
-        },
-    };
+    {
+        .kind = OPK_REG,
+        .reg = REG_RAX,
+    },
+    {
+        .kind = OPK_MEM,
+        .base = REG_RBX,
+        .index = REG_INVD,
+        .scale = 1,
+    },
+};
 
 KRITIC_TEST(instructions, add) {
     instr_t instr = { 0 };
@@ -125,5 +135,17 @@ KRITIC_TEST(instructions, nop) {
     };
 
     to_instr(NOP, NULL, &instr);
+    KRITIC_ASSERT_EQ(0, memcmp(out, instr.binary, instr.binary_index));
+}
+
+KRITIC_TEST(instructions, push) {
+    instr_t instr = { 0 };
+
+    const uint8_t out[] = {
+        0x48, 0x50, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    };
+
+    to_instr(PUSH, r_ops, &instr);
     KRITIC_ASSERT_EQ(0, memcmp(out, instr.binary, instr.binary_index));
 }
