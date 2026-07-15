@@ -70,7 +70,7 @@ void jitcode_assemble(jitcode_t* jitcode) {
     instr_t* instruction = &jitcode->codebuf.data[index++];
     while (instruction->kind != PSEUDO_NULL) {
         jitcode->codesize += instruction->binary_index;
-        if (instruction->kind == JMP) {
+        if (instruction->kind == JMP || instruction->kind == CALL) {
             int32_t offset = resolve_offset(
                 jitcode->codebuf.data,
                 index,
@@ -89,6 +89,6 @@ void jitcode_assemble(jitcode_t* jitcode) {
 uint64_t jitcode_execute(jitcode_t* jitcode) {
     typedef uint64_t (*jit_fn_t)(void);
 
-    jit_fn_t fn = (jit_fn_t)jitcode->codepages;
+    jit_fn_t fn = (jit_fn_t) jitcode->codepages;
     return fn();
 }
