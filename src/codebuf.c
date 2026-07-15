@@ -8,6 +8,12 @@ void cb_reserve(codebuf_t* codebuf, size_t cap) {
     codebuf->size = 0;
 }
 
+void cb_free(codebuf_t* codebuf) {
+    free((void*) codebuf->data);
+    codebuf->cap = 0;
+    codebuf->size = 0;
+}
+
 void cb_grow(codebuf_t* codebuf) {
     const size_t newcap = codebuf->cap * CB_GROW_FACTOR;
     void* newdata = realloc((void*) codebuf->data, newcap);

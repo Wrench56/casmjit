@@ -13,6 +13,7 @@ typedef struct {
 } codebuf_t;
 
 void cb_reserve(codebuf_t* codebuf, size_t cap);
+void cb_free(codebuf_t* codebuf);
 void cb_grow(codebuf_t* codebuf);
 void cb_add(codebuf_t* codebuf, const void* data, size_t size);
 
