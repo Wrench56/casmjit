@@ -35,4 +35,8 @@ void inj_code(jitcode_t* jitcode) {
     jitcode->codepages = codepages;
 }
 
+void free_code(jitcode_t* jitcode) {
+    munmap(jitcode->codepages, jitcode->codesize);
+}
+
 #endif // __linux__

@@ -11,6 +11,8 @@ void jitcode_init(jitcode_t* jitcode) {
 void jitcode_free(jitcode_t* jitcode) {
     jitcode->codesize = 0;
     cb_free(&jitcode->codebuf);
+
+    free_code(jitcode);
 }
 
 labelid_t jitcode_emit(
