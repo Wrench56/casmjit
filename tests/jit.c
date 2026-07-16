@@ -5,46 +5,60 @@
 #include "debug.h"
 #include "jit.h"
 
-static __attribute__((unused)) void debug(const instr_t* instr) {
-    printf("Debug = ");
-    for (size_t i = 0; i < instr->binary_index; i++) {
-        printf("%02X", instr->binary[i]);
-    }
-    printf("\n");
-    printf("Index = %u\n", instr->binary_index);
-}
-
-KRITIC_TEST(jit, emit) {
+KRITIC_TEST(jit, x86_syscall) {
     jitcode_t code = { 0 };
     jitcode_init(&code);
+
+    const uint8_t out[] = {
+        0x48, 0xC7, 0xC0, 0xE7, 0x00, 0x00, 0x00, 0x48,
+        0xC7, 0xC7, 0x05, 0x00, 0x00, 0x00, 0x0F, 0x05
+    };
+
     labelid_t label = jitcode_emit(
         &code,
         PSEUDO_LABEL,
-        (operand_t[]) { { .kind = OPK_PSEUDO, .pseudo_data = "start" },
-                        { .kind = OPK_NULL },
-                        { .kind = OPK_NULL },
-                        { .kind = OPK_NULL } }
+        (operand_t[]) {
+            { .kind = OPK_PSEUDO, .pseudo_data = "start" },
+            { .kind = OPK_NULL },
+            { .kind = OPK_NULL },
+            { .kind = OPK_NULL }
+        }
     );
     jitcode_emit(
         &code,
         MOV,
         (operand_t[]) {
             { .kind = OPK_REG, .reg = REG_RAX },
-            { .kind = OPK_REG, .reg = REG_RBX },
+            { .kind = OPK_IMM, .immediate = 231 },
             { .kind = OPK_NULL },
             { .kind = OPK_NULL },
         }
     );
     jitcode_emit(
         &code,
-        JMP,
-        (operand_t[]) { { .kind = OPK_LABEL, .label = label },
-                        { .kind = OPK_NULL },
-                        { .kind = OPK_NULL },
-                        { .kind = OPK_NULL } }
+        MOV,
+        (operand_t[]) {
+            { .kind = OPK_REG, .reg = REG_RDI },
+            { .kind = OPK_IMM, .immediate = 5 },
+            { .kind = OPK_NULL },
+            { .kind = OPK_NULL },
+        }
     );
+    jitcode_emit(
+        &code,
+        SYSCALL,
+        (operand_t[]) {
+            { .kind = OPK_NULL },
+            { .kind = OPK_NULL },
+            { .kind = OPK_NULL },
+            { .kind = OPK_NULL }
+        }
+    );
+
     jitcode_assemble(&code);
     JITCODE_DUMP(&code);
+
+    KRITIC_ASSERT_EQ(0, memcmp(code.codepages, out, code.codesize));
 
     jitcode_free(&code);
 }
