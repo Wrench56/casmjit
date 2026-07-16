@@ -3,7 +3,7 @@
 
 #include "x86/instr.h"
 
-#define INSTR_O(op, form_, s0_, s1_, s2_, s3_, map_, pp_, opcode_, dig)        \
+#define INSTR_O(op, form_, s0_, s1_, s2_, s3_, map_, pp_, mod_, opcode_, dig)  \
     { .kind = op,                                                              \
       .form = form_,                                                           \
       .s0 = s0_,                                                               \
@@ -12,10 +12,11 @@
       .s3 = s3_,                                                               \
       .map = map_,                                                             \
       .pp = pp_,                                                               \
+      .mods = mod_,                                                             \
       .opcode = opcode_,                                                       \
       .digit = dig },
-#define INSTR_F(op, form, s0, s1, s2, s3, map, pp, opcode, dig)                \
-    INSTR_O(op, form, s0, s1, s2, s3, map, pp, opcode, dig)
+#define INSTR_F(op, form, s0, s1, s2, s3, map, pp, mod, opcode, dig)           \
+    INSTR_O(op, form, s0, s1, s2, s3, map, pp, mod, opcode, dig)
 
 const instrform_t forms[] = {
 #include "x86/tbl/instructions.h"

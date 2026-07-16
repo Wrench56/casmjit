@@ -122,7 +122,7 @@ static const char* dispsize_name(dispsize_t d) {
 static const char* const g_instrkind_names[] = {
     [PSEUDO_NULL] = "PSEUDO_NULL",
     [PSEUDO_LABEL] = "PSEUDO_LABEL",
-#define INSTR_O(op, form, s0, s1, s2, s3, map, pp, opcode, dig) [op] = #op,
+#define INSTR_O(op, form, s0, s1, s2, s3, map, pp, mod, opcode, dig) [op] = #op,
 #include "x86/tbl/instructions.h"
 #undef INSTR_O
 };

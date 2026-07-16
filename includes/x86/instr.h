@@ -35,12 +35,18 @@ typedef enum {
 } oppp_t;
 
 typedef enum {
+    ENCM_NONE = 0,
+    ENCM_DEFAULT_64 = 1 << 0,
+    ENCM_ACC_OPCODE = 1 << 1,
+} encmod_t;
+
+typedef enum {
     DISP0,
     DISP8,
     DISP32,
 } dispsize_t;
 
-#define INSTR_O(op, form, s0, s1, s2, s3, map, pp, opcode, dig) op,
+#define INSTR_O(op, form, s0, s1, s2, s3, map, pp, mod, opcode, dig) op,
 typedef enum {
     PSEUDO_NULL = 0,
     PSEUDO_LABEL = 1,
@@ -58,6 +64,7 @@ typedef struct {
     int8_t s3;
     opmap_t map;
     oppp_t pp;
+    encmod_t mods;
     uint8_t opcode;
     int8_t digit;
 } instrform_t;
