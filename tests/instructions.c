@@ -228,6 +228,18 @@ KRITIC_TEST(instructions, sfence) {
     KRITIC_ASSERT_EQ(0, memcmp(out, instr.binary, instr.binary_index));
 }
 
+KRITIC_TEST(instructions, clflushopt) {
+    instr_t instr = { 0 };
+
+    const uint8_t out[] = {
+        0x66, 0x48, 0x0F, 0xAE, 0x38, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    };
+
+    to_instr(CLFLUSHOPT, m_ops, &instr);
+    KRITIC_ASSERT_EQ(0, memcmp(out, instr.binary, instr.binary_index));
+}
+
 KRITIC_TEST(instructions, nop) {
     instr_t instr = { 0 };
 
