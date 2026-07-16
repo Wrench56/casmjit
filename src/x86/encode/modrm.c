@@ -53,8 +53,14 @@ void encode_modrm(instr_t* instruction) {
     }
 
     if (rm_op->kind == OPK_REG) {
-        mod = 0b11;
-        rm = REG_LOW3(rm_op->reg);
+        /* Accumulator forms do not need a MODRM byte */
+        if (instruction->form->mods & ENCM_ACC_OPCODE &&
+            rm_op->reg == REG_RAX) {
+            return;
+        } else {
+            mod = 0b11;
+            rm = REG_LOW3(rm_op->reg);
+        }
     } else if (rm_op->kind == OPK_MEM) {
         const int32_t disp = instruction->operands[opn].disp;
 

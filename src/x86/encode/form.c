@@ -12,7 +12,7 @@
       .s3 = s3_,                                                               \
       .map = map_,                                                             \
       .pp = pp_,                                                               \
-      .mods = mod_,                                                             \
+      .mods = mod_,                                                            \
       .opcode = opcode_,                                                       \
       .digit = dig },
 #define INSTR_F(op, form, s0, s1, s2, s3, map, pp, mod, opcode, dig)           \
@@ -95,6 +95,12 @@ const instrform_t* find_instr_form(
         }
 
         if (forms[i].form != form) {
+            continue;
+        }
+
+        /* Accumulator form is only valid in I form with (R)AX  */
+        if (form == MI && forms[i].mods & ENCM_ACC_OPCODE &&
+            operands[0].reg != REG_RAX) {
             continue;
         }
 
