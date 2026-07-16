@@ -10,7 +10,7 @@
 #define INSTR_MAX_OPERANDS 4
 #define INSTR_MAX_LENGTH 16
 
-typedef enum { UNKNOWN = 0, RM, MR, MI, M, I, O, ZO, D } form_t;
+typedef enum { UNKNOWN = 0, RM, MR, MI, M, I, O, OI, ZO, D } form_t;
 
 typedef enum {
     OPK_NULL = 0,

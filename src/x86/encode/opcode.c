@@ -27,7 +27,7 @@ void encode_opcode(instr_t* instruction) {
     }
 
     uint8_t opcode = form->opcode;
-    if (form->form == O) {
+    if (form->form == O || form->form == OI) {
         opcode |= REG_LOW3(instruction->operands[0].base);
     }
 

@@ -8,6 +8,7 @@ void encode_imm(instr_t* instruction) {
     const operand_t* imm_op = NULL;
     switch (form->form) {
         case MI:
+        case OI:
             imm_op = &instruction->operands[1];
             break;
         case I:

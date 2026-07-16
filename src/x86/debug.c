@@ -60,6 +60,8 @@ static const char* form_name(form_t f) {
             return "I";
         case O:
             return "O";
+        case OI:
+            return "OI";
         case ZO:
             return "ZO";
         case D:

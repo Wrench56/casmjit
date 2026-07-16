@@ -44,6 +44,7 @@ void encode_modrm(instr_t* instruction) {
             break;
         case I:
         case O:
+        case OI:
         case ZO:
         case D:
             return;

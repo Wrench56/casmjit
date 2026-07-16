@@ -57,6 +57,17 @@ const operand_t ri32_ops[4] = {
     }
 };
 
+const operand_t ri64_ops[4] = {
+    {
+        .kind = OPK_REG,
+        .reg = REG_RAX,
+    },
+    {
+        .kind = OPK_IMM,
+        .immediate = INT64_MAX,
+    }
+};
+
 const operand_t rm_ops[4] = {
     {
         .kind = OPK_REG,
@@ -142,6 +153,11 @@ KRITIC_TEST(instructions, mov) {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
     };
 
+    const uint8_t out_ri64[] = {
+        0x48, 0xB8, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 
+        0xFF, 0x7F, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    };
+
     to_instr(MOV, rr_ops, &instr);
     KRITIC_ASSERT_EQ(0, memcmp(out_rr, instr.binary, instr.binary_index));
 
@@ -150,6 +166,9 @@ KRITIC_TEST(instructions, mov) {
 
     to_instr(MOV, ri32_ops, &instr);
     KRITIC_ASSERT_EQ(0, memcmp(out_ri32, instr.binary, instr.binary_index));
+
+    to_instr(MOV, ri64_ops, &instr);
+    KRITIC_ASSERT_EQ(0, memcmp(out_ri64, instr.binary, instr.binary_index));
 }
 
 KRITIC_TEST(instructions, xor) {

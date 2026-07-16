@@ -89,6 +89,12 @@ const instrform_t* find_instr_form(
         form = D;
     }
 
+    if (form == MI &&
+        (operands[1].immediate > INT32_MAX ||
+         operands[1].immediate < INT32_MIN)) {
+        form = OI;
+    }
+
     for (size_t i = 0; i < forms_count; i++) {
         if (forms[i].kind != instruction) {
             continue;
