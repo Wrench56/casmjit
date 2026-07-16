@@ -36,7 +36,7 @@ typedef enum {
 
 typedef enum {
     ENCM_NONE = 0,
-    ENCM_DEFAULT_64 = 1 << 0,
+    ENCM_NO_REXW = 1 << 0,
     ENCM_ACC_OPCODE = 1 << 1,
 } encmod_t;
 

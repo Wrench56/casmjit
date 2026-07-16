@@ -82,6 +82,12 @@ static uint8_t rex_prefix(instr_t* instruction) {
         }
     }
 
+    if (instruction->form->mods & ENCM_NO_REXW) {
+        if (rex == 0b01001000) {
+            return 0x00;
+        }
+    }
+
     return rex;
 }
 
@@ -92,8 +98,7 @@ void encode_prefix(instr_t* instruction) {
     if (pp != PP_NONE) {
         instruction->binary[instruction->binary_index++] = pp;
     }
-    
-    // FIXME: Skip REX byte for instructions that default to long mode (e.g. PUSH)
+
     if (rex != 0x00) {
         instruction->binary[instruction->binary_index++] = rex;
     }
