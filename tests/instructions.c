@@ -90,6 +90,12 @@ const operand_t i32_ops[4] = {
     }
 };
 
+const operand_t zo_ops[4] = {
+    {
+        .kind = OPK_NULL
+    },
+};
+
 KRITIC_TEST(instructions, add) {
     instr_t instr = { 0 };
 
@@ -216,4 +222,16 @@ KRITIC_TEST(instructions, pop) {
 
     to_instr(POP, r_ops, &instr);
     KRITIC_ASSERT_EQ(0, memcmp(out_r, instr.binary, instr.binary_index));
+}
+
+KRITIC_TEST(instructions, syscall) {
+    instr_t instr = { 0 };
+
+    const uint8_t out[] = {
+        0x0F, 0x05, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    };
+
+    to_instr(SYSCALL, zo_ops, &instr);
+    KRITIC_ASSERT_EQ(0, memcmp(out, instr.binary, instr.binary_index));
 }
