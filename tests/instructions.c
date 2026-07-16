@@ -192,6 +192,42 @@ KRITIC_TEST(instructions, pause) {
     KRITIC_ASSERT_EQ(0, memcmp(out, instr.binary, instr.binary_index));
 }
 
+KRITIC_TEST(instructions, lfence) {
+    instr_t instr = { 0 };
+
+    const uint8_t out[] = {
+        0x0F, 0xAE, 0xE8, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    };
+
+    to_instr(LFENCE, NULL, &instr);
+    KRITIC_ASSERT_EQ(0, memcmp(out, instr.binary, instr.binary_index));
+}
+
+KRITIC_TEST(instructions, mfence) {
+    instr_t instr = { 0 };
+
+    const uint8_t out[] = {
+        0x0F, 0xAE, 0xF0, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    };
+
+    to_instr(MFENCE, NULL, &instr);
+    KRITIC_ASSERT_EQ(0, memcmp(out, instr.binary, instr.binary_index));
+}
+
+KRITIC_TEST(instructions, sfence) {
+    instr_t instr = { 0 };
+
+    const uint8_t out[] = {
+        0x0F, 0xAE, 0xF8, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    };
+
+    to_instr(SFENCE, NULL, &instr);
+    KRITIC_ASSERT_EQ(0, memcmp(out, instr.binary, instr.binary_index));
+}
+
 KRITIC_TEST(instructions, nop) {
     instr_t instr = { 0 };
 
