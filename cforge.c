@@ -59,14 +59,18 @@ static bool compile_pattern(const char* section, const char* pattern, const char
 
 CF_CONFIG(base) {
     CF_SET_ENV(includes, "-Iincludes/");
-    CF_SET_ENV(cflags, "-DX86 ");
+    CF_SET_ENV(cflags, "-DX86 -fno-ident ");
 }
 
 CF_CONFIG(release) {
     CF_CONFIG_EXTENDS(base);
     CF_SET_ENV(mode, "release");
 
-    CF_APPEND_ENV(cflags, "-O2 -DNDEBUG -march=native");
+    CF_APPEND_ENV(
+        cflags,
+        "-O2 -DNDEBUG -march=native -fno-unwind-tables "
+        "-fno-asynchronous-unwind-tables"
+    );
 }
 
 CF_CONFIG(debug) {
