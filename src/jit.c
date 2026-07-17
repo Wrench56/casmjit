@@ -82,7 +82,7 @@ void jitcode_assemble(jitcode_t* jitcode) {
             encode_pass2_rel(instruction, offset);
         }
 
-        instruction = &jitcode->codebuf.data[index++];
+        instruction = &jitcode->codebuf.data[++index];
     }
 
     inj_code(jitcode);
