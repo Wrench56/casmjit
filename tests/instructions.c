@@ -330,3 +330,15 @@ KRITIC_TEST(instructions, syscall) {
     to_instr(SYSCALL, zo_ops, &instr);
     KRITIC_ASSERT_EQ(0, memcmp(out, instr.binary, instr.binary_index));
 }
+
+KRITIC_TEST(instruction, ret) {
+    instr_t instr = { 0 };
+
+    const uint8_t out[] = {
+        0xC3, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    };
+
+    to_instr(RET, zo_ops, &instr);
+    KRITIC_ASSERT_EQ(0, memcmp(out, instr.binary, instr.binary_index));
+}
