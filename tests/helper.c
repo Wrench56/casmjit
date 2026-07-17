@@ -24,3 +24,28 @@ KRITIC_TEST(helper, x86_syscall) {
 
     FREECODE(code);
 }
+
+KRITIC_TEST(helper, x86_branch) {
+    const uint8_t out[] = {
+        0x48, 0xC7, 0xC0, 0xE7, 0x00, 0x00, 0x00, 0x48,
+        0xC7, 0xC7, 0x05, 0x00, 0x00, 0x00, 0x0F, 0x05
+    };
+
+    INITCODE(code);
+    INITLABEL(branch);
+
+    jMOV(RAX, IMM(0xB00B));
+    jJMP(LABEL(branch));
+    jMOV(RDI, IMM(0xDEAD));
+    jLABEL(branch);
+    jRET();
+
+    FINICODE();
+    JITCODE_DUMP(&code);
+
+    size_t ret = RUNCODE(code);
+
+    KRITIC_ASSERT_EQ(0xB00B, ret);
+
+    FREECODE(code);
+}
