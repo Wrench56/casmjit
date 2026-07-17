@@ -63,6 +63,13 @@ static jitcode_t* casmjit_internal_helper_jitcode_ptr;
         .kind = OPK_MEM, .base = base_.reg, .index = index_.reg,               \
         .scale = scale_, .disp = disp_                                         \
     }
+#define LABEL(name)                                                            \
+    (operand_t) {                                                              \
+        .kind = OPK_LABEL, .label = label_##name,                              \
+        .this_index =                                                          \
+            (casmjit_internal_helper_jitcode_ptr->codebuf.size /               \
+             sizeof(instr_t))                                                  \
+    }
 
 #define RAX REG(REG_RAX)
 #define RCX REG(REG_RCX)
@@ -81,6 +88,16 @@ static jitcode_t* casmjit_internal_helper_jitcode_ptr;
 #define R13 REG(REG_R13)
 #define R14 REG(REG_R14)
 #define R15 REG(REG_R15)
+
+#define INITLABEL(name) labelid_t label_##name = create_label();
+#define jLABEL(name)                                                           \
+    jitcode_emit(                                                              \
+        casmjit_internal_helper_jitcode_ptr,                                   \
+        PSEUDO_LABEL,                                                          \
+        (operand_t[4]) {                                                       \
+            [0] = (operand_t) { .kind = OPK_PSEUDO, .pseudo_data = #name },    \
+        }                                                                      \
+    );
 
 #define INITCODE(name)                                                         \
     jitcode_t name = { 0 };                                                    \
