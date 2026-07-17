@@ -60,8 +60,8 @@ static jitcode_t* casmjit_internal_helper_jitcode_ptr;
     }
 #define MEM(base_, index_, scale_, disp_)                                      \
     (operand_t) {                                                              \
-        .kind = OPK_MEM, .base = base_, .index = index_, .scale = scale_,      \
-        .disp = disp_                                                          \
+        .kind = OPK_MEM, .base = base_.reg, .index = index_.reg,               \
+        .scale = scale_, .disp = disp_                                         \
     }
 
 #define RAX REG(REG_RAX)
