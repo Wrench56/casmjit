@@ -25,6 +25,7 @@ rules:
       - utils
       - codegen
       - xmem
+      - helper
   subject-empty:
     level: error
   type:
