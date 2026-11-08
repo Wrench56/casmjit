@@ -31,5 +31,5 @@ void encode_opcode(instr_t* instruction) {
         opcode |= REG_LOW3(instruction->operands[0].base);
     }
 
-    emit_byte(instruction, form->opcode);
+    emit_byte(instruction, opcode);
 }
