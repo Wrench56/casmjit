@@ -69,7 +69,7 @@ void jitcode_assemble(jitcode_t* jitcode) {
     cb_add(&jitcode->codebuf, &nullinstr, sizeof(instr_t));
 
     size_t index = 0;
-    instr_t* instruction = &jitcode->codebuf.data[index++];
+    instr_t* instruction = &jitcode->codebuf.data[index];
     while (instruction->kind != PSEUDO_NULL) {
         jitcode->codesize += instruction->binary_index;
         if (instruction->kind == JMP || instruction->kind == CALL) {
