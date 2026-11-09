@@ -45,8 +45,23 @@ void encode_modrm(instr_t* instruction) {
         case I:
         case O:
         case OI:
-        case ZO:
         case D:
+            return;
+        case ZO:
+            /*
+                Some ZO form instructions (e.g. fences) carry an opcode
+                digit. These instructions encode it in MODRM.reg:
+
+                +------------+-------------+-------------+
+                | Mod = 0b11 | Reg = 0bxxx | R/M = 0b000 |
+                +------------+-------------+-------------+
+
+            */
+            if (instruction->form->digit != -1) {
+                instruction->binary[instruction->binary_index++] = 0b11000000 |
+                    (instruction->form->digit << 3);
+            }
+
             return;
         default:
             assert(0 && "Invalid instruction form");
